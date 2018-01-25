@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{{ @title }}</title>
+
+        <style>
+            h3
+            {
+                margin-bottom: 0.5em;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>{{ @title }}</h1>
+        <p>User logged in as {{ @username }} using {{ @password }}</p>
+        <br>
+
+        <!--working with expressions-->
+        <h3>Temperature</h3>
+        <p>Fahrenheit: {{ @temp }} degrees</p>
+        <p>Celsius: {{ round((@temp-32)*(5.0/9.0), 2) }} degrees</p>
+        <ul>
+            <repeat group="{{ @fruits }}" value="{{ @fruit }}">
+                <li>{{ trim(@fruit) }}</li>
+            </repeat>
+        </ul>
+        <br>
+
+        <!-- looping over arrays -->
+        <h3>Bookmarks</h3>
+        <p>My first bookmark is {{ @bookmarks[0] }}</p>
+        <ul>
+            <repeat group="{{ @bookmarks }}" value="{{ @bookmark }}">
+                <li><a href="{{ @bookmark }}"> {{ str_replace('http://', '', @bookmark) }}</a></li>
+            </repeat>
+        </ul>
+        <br>
+
+        <!-- displaying elements of an associative array -->
+        <h3>Addresses</h3>
+        <p>{{ @addresses['primary'] }}</p>
+        <p>{{ @addresses['secondary'] }}</p>
+
+        <!-- looping over associative arrays -->
+        <repeat group="{{ @addresses }}" key="{{ @key }}" value="{{ @value }}">
+            <p>{{ @key }} - {{ @value }}</p>
+        </repeat>
+        <br>
+
+        <h3>Dessert Options</h3>
+        <repeat group="{{ @desserts }}" key="{{ @key }}" value="{{ @value }}">
+            <label><input name="dessert" type="radio" value="{{ @key }}">{{ @value }}</label><br>
+        </repeat>
+        <br>
+
+        <!-- conditional content -->
+        <h3>Message</h3>
+        <check if="{{ @preferredCustomer }}">
+            <strong>Thank you for being a preferred customer!</strong>
+            <br>
+        </check>
+        <check if="{{ @lastLogin > strtotime('-1 month') }}">
+            <true>Welcome back!</true>
+            <false>It's been a while!</false>
+        </check>
+        <br>
+
+        <!-- printing objects -->
+        <h3>My Pet</h3>
+        <p>{{ @myPet->getName() }}</p>
+        <p>{{ @myPet->getColor() }}</p>
+        <br>
+
+        <!-- include a file -->
+        <h3>Include</h3>
+        <include href="footer.html" />
+        <include if="{{ @page == 'home' }}" href="{{ @content }}" />
+        <br>
+
+        <!-- access a session variable -->
+        <h3>Session Variable</h3>
+        <p>Session ID: {{ @SESSION['id'] }} </p>
+        <br>
+    </body>
+</html>
